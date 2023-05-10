@@ -1,5 +1,5 @@
 package BoardPackage;
-
+import Units.Knight;
 public class Tile {
 
     private final int row;
