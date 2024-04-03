@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
-    Knight currentKnight,otherKnight;
+    protected Knight currentKnight,otherKnight;
+
+    protected Board board;
 
     public void PlayGame(){
         Scanner scanner = new Scanner(System.in);
-        Board board = new Board();
+         board = new Board();
 
         // Play the game
         currentKnight = board.getPlayer1();
@@ -40,7 +42,7 @@ public class Game {
             }
 
             // Move the knight to the new tile
-            if (!tryToMoveKnight(move,board)){
+            if (!tryToMoveKnight(move,board,currentKnight)){
                 continue;
             }
 
@@ -49,8 +51,8 @@ public class Game {
         }
     }
 
-    private boolean tryToMoveKnight(Tile move, Board board){
-        if (!currentKnight.move(move, board)) {
+    protected boolean tryToMoveKnight(Tile move, Board board, Knight knight){
+        if (!knight.move(move, board)) {
             System.out.println("Invalid move. Please try again.");
             return false;
         }
@@ -58,24 +60,22 @@ public class Game {
     }
 
 
-    private Tile promptPlayerMoveToTile(Scanner scanner, Board board){
+    protected Tile promptPlayerMoveToTile(Scanner scanner, Board board){
         System.out.println("Enter your move (row column): ");
         int moveRow = scanner.nextInt();
         int moveCol = scanner.nextInt();
-        Tile move = board.getTile(moveRow, moveCol);
-
-        return move;
+        return board.getTile(moveRow, moveCol);
     }
 
 
-    private boolean checkTileValidity(ArrayList<Tile> availableMoves, Tile move ){
+    protected boolean checkTileValidity(ArrayList<Tile> availableMoves, Tile move ){
         if (!availableMoves.contains(move)) {
             System.out.println("Invalid move. Please try again.");
             return  false;
         }
         return true;
     }
-    private void displayCurrentPlayerPossibleMoves(Board board)
+    protected void displayCurrentPlayerPossibleMoves(Board board)
     {
         System.out.println("Available moves:");
         for (Tile tile : currentKnight.getAvailableMoves(board)) {
@@ -87,23 +87,29 @@ public class Game {
     }
 
 
-    private void switchCurrentPlayer() {
+
+
+    protected void switchCurrentPlayer() {
         Knight tempKnight = currentKnight;
         currentKnight = otherKnight;
         otherKnight = tempKnight;
     }
 
-    private static void gameOver(Knight winner,Board board)
+
+
+    protected static void gameOver(Knight winner,Board board)
     {
         System.out.println("Game over!");
         if (winner == board.getPlayer1() ){
             System.out.println("Player1 won");
+            board.printBoard();
         }
         else {
             System.out.println("Player2 won");
+            board.printBoard();
         }
 
-
-
     }
+
+
 }
