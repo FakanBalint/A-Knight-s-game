@@ -41,8 +41,9 @@ public class GameWithOpponent extends Game {
 
     private void TakeTurn(Scanner scanner) {
         if (turnCounter % 2 == 0) {
-           if (!PlayerTakeTurn(scanner)){
-                PlayerTakeTurn(scanner);
+           boolean success = PlayerTakeTurn(scanner);
+           if (!success) {
+               turnCounter--;
            }
         } else {
             AiTakeTurn();
