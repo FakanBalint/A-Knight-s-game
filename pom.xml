@@ -25,6 +25,8 @@
         <maven.javadoc.version>3.5.0</maven.javadoc.version>
         <maven.checkstyle.version>3.2.1</maven.checkstyle.version>
         <maven.surefire.version>3.0.0</maven.surefire.version>
+        <javafx.version>19</javafx.version>
+        <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
         <jacoco.version>0.8.9</jacoco.version>
         <exec.mainClass><!-- TODO: the main class of your application that contains the main method --></exec.mainClass>
     </properties>
@@ -33,6 +35,7 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>${javafx.version}</version>
+
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -56,6 +59,14 @@
     </dependencies>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>${javafx.maven.plugin.version}</version>
+                <configuration>
+                    <mainClass>Game.KnightGameGUI</mainClass>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

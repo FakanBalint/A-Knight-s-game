@@ -18,7 +18,7 @@ public class GameWithOpponent extends Game {
     private  int turnCounter;
 
     @Override
-    public void PlayGame() {
+    public void PlayGameConsole() {
 
 
         // Data
@@ -41,7 +41,7 @@ public class GameWithOpponent extends Game {
 
     private void TakeTurn(Scanner scanner) {
         if (turnCounter % 2 == 0) {
-           boolean success = PlayerTakeTurn(scanner);
+           boolean success = PlayerTakeTurnConsole(scanner);
            if (!success) {
                turnCounter--;
            }
@@ -66,7 +66,7 @@ public class GameWithOpponent extends Game {
 
 
 
-    private boolean PlayerTakeTurn(Scanner scanner) {
+    private boolean PlayerTakeTurnConsole(Scanner scanner) {
 
         // Print the board
         board.printBoard();

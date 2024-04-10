@@ -10,14 +10,16 @@ public class Game {
 
     protected Board board;
 
-    public void PlayGame(){
-        Scanner scanner = new Scanner(System.in);
-         board = new Board();
-
+    public void Innit(){
+        board = new Board();
         // Play the game
         currentKnight = board.getPlayer1();
         otherKnight = board.getPlayer2();
+    }
 
+    public void PlayGameConsole(){
+        Scanner scanner = new Scanner(System.in);
+        Innit();
         while (true) {
             // Print the board
             board.printBoard();
@@ -51,7 +53,7 @@ public class Game {
         }
     }
 
-    protected boolean tryToMoveKnight(Tile move, Board board, Knight knight){
+    public boolean tryToMoveKnight(Tile move, Board board, Knight knight){
         if (!knight.move(move, board)) {
             System.out.println("Invalid move. Please try again.");
             return false;
@@ -67,6 +69,9 @@ public class Game {
         return board.getTile(moveRow, moveCol);
     }
 
+    public  Board GetBoard(){
+        return board;
+    }
 
     protected boolean checkTileValidity(ArrayList<Tile> availableMoves, Tile move ){
         if (!availableMoves.contains(move)) {
@@ -83,8 +88,9 @@ public class Game {
                 System.out.println("Row: " + tile.getRow() + ", Col: " + tile.getCol());
             }
         }
-
     }
+
+
 
 
 
