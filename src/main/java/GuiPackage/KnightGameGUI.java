@@ -1,21 +1,18 @@
-package Game;
+package GuiPackage;
 
 import BoardPackage.Board;
 import BoardPackage.Tile;
+import Game.Game;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
 public class KnightGameGUI extends Application {
-
-    private final int BOARD_SIZE = 8; // Assuming an 8x8 board for simplicity
-    private final int TILE_SIZE = 100; // Size of each tile in pixels
 
     private Game game;
 
@@ -33,27 +30,36 @@ public class KnightGameGUI extends Application {
 
         board = game.GetBoard();
 
+
+            // Size of the board in tiles
+        int BOARD_SIZE = 8;
+
+            // Size of each tile in pixels
+        int TILE_SIZE = 100;
+
         // Create the board tiles
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
-                Rectangle tile = new Rectangle(TILE_SIZE, TILE_SIZE);
-                tile.setFill((row + col) % 2 == 0 ? Color.LIGHTGRAY : Color.WHITE); // Alternating colors for tiles
-                tile.setStroke(Color.BLACK); // Border color
-
+                Tile tile = board.getTile(row, col);
+                VisualTile visualTile = new VisualTile(row, col, TILE_SIZE, tile);
                 // Add mouse click event handler to handle player moves
                 int finalRow = row;
                 int finalCol = col;
-                tile.setOnMouseClicked(event -> {
+                visualTile.setOnMouseClicked(event -> {
                     // Handle player move here, for example:
 
-                    game.tryToMoveKnight(board.getTile(finalRow, finalCol), board, game.currentKnight);
-                    System.out.println("Player moved to: (" + finalRow + ", " + finalCol + ")");
+                    if(game.tryToMoveKnight(board.getTile(finalRow, finalCol), board, game.getCurrentKnight())){
+                        System.out.println("Player moved to: (" + finalRow + ", " + finalCol + ")");
+                        game.switchCurrentPlayer();
+                    }else{
+                        System.out.println("Player Tried to moved to: (" + finalRow + ", " + finalCol + ") and failed");
+                    }
 
                     // Update the GUI
                     updateGUI(grid,board);
                 });
 
-                grid.add(tile, col, row);
+                grid.add(visualTile, col, row);
             }
         }
         updateGUI(grid,board);
@@ -65,28 +71,28 @@ public class KnightGameGUI extends Application {
 
     public void updateGUI(GridPane VisualBoard,Board board)
     {
+        ArrayList<Tile> availableMoves = game.getCurrentKnight().getAvailableMoves(board);
         for (Node node : VisualBoard.getChildren()) {
-            if (node instanceof Rectangle) {
-                Rectangle visualTile = (Rectangle) node;
+            if (node instanceof VisualTile visualTile) {
+
                 Tile tile = board.getTile(GridPane.getRowIndex(visualTile), GridPane.getColumnIndex(visualTile));
 
-                if(tile.isOccupied())
-                {
-                    visualTile.setFill(Color.RED);
-                }else{
-                    visualTile.setFill((GridPane.getRowIndex(visualTile) + GridPane.getColumnIndex(visualTile)) % 2 == 0 ? Color.LIGHTGRAY : Color.WHITE);
-                }
+                visualTile.DisPlayTileProperties();
 
-                ArrayList<Tile> availableMoves = game.currentKnight.getAvailableMoves(board);
                 if(availableMoves.contains(tile))
                 {
-                    visualTile.setFill(Color.LIGHTGREEN);
+                    visualTile.UpdateAsAvailable();
                 }
-
-                game.displayCurrentPlayerPossibleMoves(board);
 
             }
         }
+
+        DisplayPossibleMovesToConsole(board);
+
+    }
+
+    private void DisplayPossibleMovesToConsole(Board board){
+        game.displayCurrentPlayerPossibleMovesOnConsole(board);
     }
 
     public static void main(String[] args) {

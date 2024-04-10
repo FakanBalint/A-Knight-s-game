@@ -74,13 +74,13 @@ public class GameWithOpponent extends Game {
         ArrayList<Tile> availableMoves = currentKnight.getAvailableMoves(board);
 
         //Display the current player's available positions
-        displayCurrentPlayerPossibleMoves(board);
+        displayCurrentPlayerPossibleMovesOnConsole(board);
 
         // Prompt the player for their move
         Tile move = promptPlayerMoveToTile(scanner,board);
 
         // Check if the move is valid
-        if (!checkTileValidity(availableMoves,move)){
+        if (checkTileValidity(availableMoves, move)){
             return false;
         }
 

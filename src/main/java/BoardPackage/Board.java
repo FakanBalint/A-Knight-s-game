@@ -15,7 +15,9 @@ public class Board {
             }
         }
         player1 = placeKnight(0,0);
+        player1.setIconNameUniCode("\u2658");
         player2 = placeKnight(7,7);
+        player2.setIconNameUniCode("\u265E");
     }
 
     private Knight placeKnight( int row, int col) {

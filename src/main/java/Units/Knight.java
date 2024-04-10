@@ -1,12 +1,26 @@
 package Units;
 import BoardPackage.*;
 
+import javax.swing.text.html.ImageView;
 import java.util.ArrayList;
 
 public class Knight {
 
     private Tile position;
+    private String IconNameUniCode;
 
+    public String getIconNameUniCode() {
+        return IconNameUniCode;
+    }
+
+    public void setIconNameUniCode(String iconNameUniCode) {
+        IconNameUniCode = iconNameUniCode;
+    }
+
+    public Knight(int row, int col, String IconNameUniCode) {
+        this.IconNameUniCode = IconNameUniCode;
+        position = new Tile(row, col);
+    }
     public Knight(int row, int col) {
         position = new Tile(row, col);
     }

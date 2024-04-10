@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
-    protected Knight currentKnight,otherKnight;
+    protected Knight currentKnight,
+            otherKnight;
 
     protected Board board;
 
@@ -15,6 +16,13 @@ public class Game {
         // Play the game
         currentKnight = board.getPlayer1();
         otherKnight = board.getPlayer2();
+    }
+
+    public Knight getCurrentKnight(){
+        return currentKnight;
+    }
+    public Knight getOtherKnight(){
+        return otherKnight;
     }
 
     public void PlayGameConsole(){
@@ -27,19 +35,16 @@ public class Game {
             ArrayList<Tile> availableMoves = currentKnight.getAvailableMoves(board);
 
             //Check for a winner
-            if ((long) availableMoves.size() == 0){
-                gameOver(otherKnight,board);
-                break;
-            }
+
 
             //Display the current player's available positions
-            displayCurrentPlayerPossibleMoves(board);
+            displayCurrentPlayerPossibleMovesOnConsole(board);
 
             // Prompt the player for their move
             Tile move = promptPlayerMoveToTile(scanner,board);
 
             // Check if the move is valid
-            if (!checkTileValidity(availableMoves,move)){
+            if (checkTileValidity(availableMoves, move)){
                 continue;
             }
 
@@ -76,11 +81,11 @@ public class Game {
     protected boolean checkTileValidity(ArrayList<Tile> availableMoves, Tile move ){
         if (!availableMoves.contains(move)) {
             System.out.println("Invalid move. Please try again.");
-            return  false;
+            return true;
         }
-        return true;
+        return false;
     }
-    protected void displayCurrentPlayerPossibleMoves(Board board)
+    public void displayCurrentPlayerPossibleMovesOnConsole(Board board)
     {
         System.out.println("Available moves:");
         for (Tile tile : currentKnight.getAvailableMoves(board)) {
@@ -95,10 +100,14 @@ public class Game {
 
 
 
-    protected void switchCurrentPlayer() {
+    public void switchCurrentPlayer() {
         Knight tempKnight = currentKnight;
         currentKnight = otherKnight;
         otherKnight = tempKnight;
+
+        if (currentKnight.getAvailableMoves(board).isEmpty()){
+            gameOver(otherKnight,board);
+        }
     }
 
 
