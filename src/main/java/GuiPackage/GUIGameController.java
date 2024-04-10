@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-public class KnightGameGUI extends Application {
+public class GUIGameController extends Application {
 
     private Game game;
 
