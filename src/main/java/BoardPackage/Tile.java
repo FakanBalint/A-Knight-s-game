@@ -24,7 +24,7 @@ public class Tile {
     public boolean isOccupied() {
         return isOccupied;
     }
-    private void setOccupied(boolean isOccupied){
+    public void setOccupied(boolean isOccupied){
         this.isOccupied = isOccupied;
     }
 

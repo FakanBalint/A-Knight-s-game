@@ -41,7 +41,9 @@ public class GameWithOpponent extends Game {
 
     private void TakeTurn(Scanner scanner) {
         if (turnCounter % 2 == 0) {
-            PlayerTakeTurn(scanner);
+           if (!PlayerTakeTurn(scanner)){
+                PlayerTakeTurn(scanner);
+           }
         } else {
             AiTakeTurn();
         }
@@ -63,7 +65,7 @@ public class GameWithOpponent extends Game {
 
 
 
-    private void PlayerTakeTurn(Scanner scanner) {
+    private boolean PlayerTakeTurn(Scanner scanner) {
 
         // Print the board
         board.printBoard();
@@ -78,10 +80,14 @@ public class GameWithOpponent extends Game {
 
         // Check if the move is valid
         if (!checkTileValidity(availableMoves,move)){
-            return;
+            return false;
         }
-        tryToMoveKnight(move,board,currentKnight);
 
+        tryToMoveKnight(move, board, currentKnight);
+
+
+
+        return true;
     }
     private void AiTakeTurn() {
 

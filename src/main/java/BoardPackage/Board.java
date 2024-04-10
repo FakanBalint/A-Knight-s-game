@@ -54,6 +54,34 @@ public class Board {
     }
 
 
+    public Board copyBoard() {
+        Board copiedBoard = new Board();
+
+        // Copy the positions of player1 and player2 knights
+        Tile player1Position = this.player1.getPosition();
+        Tile player2Position = this.player2.getPosition();
+
+        // Set the positions of player1 and player2 knights in the copied board
+        copiedBoard.player1.setPosition(copiedBoard.getTile(player1Position.getRow(), player1Position.getCol()));
+        copiedBoard.player2.setPosition(copiedBoard.getTile(player2Position.getRow(), player2Position.getCol()));
+
+        // Ensure that each tile on the copied board contains the same information as the original board
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Tile originalTile = this.getTile(i, j);
+                Tile copiedTile = copiedBoard.getTile(i, j);
+                if (originalTile.isOccupied()) {
+                    copiedTile.setOccupied(true);
+                }
+            }
+        }
+
+        // Return the copied board
+        return copiedBoard;
+    }
+
+
+
 
     public Knight getPlayer1() {
         return player1;
