@@ -64,7 +64,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>${javafx.maven.plugin.version}</version>
                 <configuration>
-                    <mainClass>GuiPackage.KnightGameGUI</mainClass>
+                    <mainClass>GuiPackage.GUIGameController</mainClass>
                 </configuration>
             </plugin>
             <plugin>

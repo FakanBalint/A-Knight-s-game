@@ -13,7 +13,13 @@ public class Game {
 
     public void Innit(){
         board = new Board();
-        // Play the game
+        currentKnight = board.getPlayer1();
+        otherKnight = board.getPlayer2();
+    }
+
+    public void PlayOnBoard(Board board){
+
+        this.board = board;
         currentKnight = board.getPlayer1();
         otherKnight = board.getPlayer2();
     }

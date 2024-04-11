@@ -45,15 +45,13 @@ public class GUIGameController extends Application {
                 // Add mouse click event handler to handle player moves
                 int finalRow = row;
                 int finalCol = col;
-                visualTile.setOnMouseClicked(event -> {
-                    // Handle player move here, for example:
-
-                    if(game.tryToMoveKnight(board.getTile(finalRow, finalCol), board, game.getCurrentKnight())){
-                        System.out.println("Player moved to: (" + finalRow + ", " + finalCol + ")");
-                        game.switchCurrentPlayer();
-                    }else{
-                        System.out.println("Player Tried to moved to: (" + finalRow + ", " + finalCol + ") and failed");
-                    }
+                    visualTile.setOnMouseClicked(event -> {
+                        if(game.tryToMoveKnight(board.getTile(finalRow, finalCol), board, game.getCurrentKnight())){
+                            System.out.println("Player moved to: (" + finalRow + ", " + finalCol + ")");
+                            game.switchCurrentPlayer();
+                        }else{
+                            System.out.println("Player Tried to moved to: (" + finalRow + ", " + finalCol + ") and failed");
+                        }
 
                     // Update the GUI
                     updateGUI(grid,board);
