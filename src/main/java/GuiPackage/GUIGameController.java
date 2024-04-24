@@ -28,7 +28,7 @@ public class GUIGameController extends Application {
         game = new Game();
         game.Innit();
 
-        board = game.GetBoard();
+        board = game.getBoard();
 
 
             // Size of the board in tiles
