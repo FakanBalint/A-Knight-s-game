@@ -1,6 +1,9 @@
 package BoardPackage;
 import Units.Knight;
-public class Tile {
+
+import java.io.Serializable;
+
+public class Tile implements Serializable {
 
     private final int row;
     private final int col;

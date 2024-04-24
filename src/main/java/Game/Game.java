@@ -17,6 +17,14 @@ public class Game {
         otherKnight = board.getPlayer2();
     }
 
+    public void LoadBoard(String fileName){
+        Board board = Board.loadBoardFromFile(fileName);
+        PlayOnBoard(board);
+    }
+
+    public void SaveBoard(){
+        board.saveBoardToFile("board.txt");
+    }
     public void PlayOnBoard(Board board){
 
         this.board = board;
@@ -80,7 +88,7 @@ public class Game {
         return board.getTile(moveRow, moveCol);
     }
 
-    public  Board GetBoard(){
+    public  Board getBoard(){
         return board;
     }
 

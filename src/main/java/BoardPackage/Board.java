@@ -1,7 +1,8 @@
 package BoardPackage;
 import Units.Knight;
+import java.io.*;
 
-public class Board {
+public class Board implements Serializable {
 
    final private Tile[][] board;
 
@@ -82,8 +83,25 @@ public class Board {
         return copiedBoard;
     }
 
+    public void saveBoardToFile(String fileName) {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            outputStream.writeObject(this);
+            System.out.println("Board saved successfully to " + fileName);
+        } catch (IOException e) {
+            System.err.println("Error saving board to file: " + e.getMessage());
+        }
+    }
 
-
+    public static Board loadBoardFromFile(String fileName) {
+        Board board = null;
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileName))) {
+            board = (Board) inputStream.readObject();
+            System.out.println("Board loaded successfully from " + fileName);
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error loading board from file: " + e.getMessage());
+        }
+        return board;
+    }
 
     public Knight getPlayer1() {
         return player1;

@@ -2,9 +2,10 @@ package Units;
 import BoardPackage.*;
 
 import javax.swing.text.html.ImageView;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Knight {
+public class Knight implements Serializable {
 
     private Tile position;
     private String IconNameUniCode;
@@ -35,17 +36,16 @@ public class Knight {
     }
 
     public ArrayList<Tile> getAvailableMoves(Board board) {
+        int[] rows = {-2, -2, -1, -1, 1, 1, 2, 2};
+        int[] cols = {-1, 1, -2, 2, -2, 2, -1, 1};
         ArrayList<Tile> moves = new ArrayList<Tile>();
         int row = position.getRow();
         int col = position.getCol();
-        addIfValidMove(row - 2, col - 1, moves, board);
-        addIfValidMove(row - 2, col + 1, moves, board);
-        addIfValidMove(row - 1, col - 2, moves, board);
-        addIfValidMove(row - 1, col + 2, moves, board);
-        addIfValidMove(row + 1, col - 2, moves, board);
-        addIfValidMove(row + 1, col + 2, moves, board);
-        addIfValidMove(row + 2, col - 1, moves, board);
-        addIfValidMove(row + 2, col + 1, moves, board);
+
+        for (int i = 0; i < 8; i++) {
+            addIfValidMove(row + rows[i], col + cols[i], moves, board);
+        }
+
         return moves;
     }
 
