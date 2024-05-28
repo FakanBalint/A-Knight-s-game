@@ -1,106 +1,90 @@
 package Game;
+
 import BoardPackage.*;
 import Units.Knight;
+import game.BasicState;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Game {
-    protected Knight currentKnight,
-            otherKnight;
+public class Game implements BasicState<Tile> {
+    private Knight currentKnight, otherKnight;
+    private Board board;
+    private Status status;
 
-    protected Board board;
+    public Game() {
+        this.status = Status.IN_PROGRESS;
+    }
 
-    public void Innit(){
+    public void init() {
         board = new Board();
         currentKnight = board.getPlayer1();
         otherKnight = board.getPlayer2();
     }
 
-    public void LoadBoard(String fileName){
-        Board board = Board.loadBoardFromFile(fileName);
-        PlayOnBoard(board);
+    public void loadBoard(String fileName) {
+        board = Board.loadBoardFromFile(fileName);
+        playOnBoard(board);
     }
 
-    public void SaveBoard(){
+    public void saveBoard() {
         board.saveBoardToFile("board.txt");
     }
-    public void PlayOnBoard(Board board){
 
+    public void playOnBoard(Board board) {
         this.board = board;
         currentKnight = board.getPlayer1();
         otherKnight = board.getPlayer2();
     }
 
-    public Knight getCurrentKnight(){
+    public Knight getCurrentKnight() {
         return currentKnight;
     }
-    public Knight getOtherKnight(){
-        return otherKnight;
+
+    public Board getBoard() {
+        return board;
     }
 
-    public void PlayGameConsole(){
+    public void playGameConsole() {
         Scanner scanner = new Scanner(System.in);
-        Innit();
-        while (true) {
-            // Print the board
+        init();
+        while (!isGameOver()) {
             board.printBoard();
-            // Get available moves for the current knight
-            ArrayList<Tile> availableMoves = currentKnight.getAvailableMoves(board);
+            displayCurrentPlayerPossibleMovesOnConsole();
+            Tile move = promptPlayerMoveToTile(scanner, board);
 
-            //Check for a winner
-
-
-            //Display the current player's available positions
-            displayCurrentPlayerPossibleMovesOnConsole(board);
-
-            // Prompt the player for their move
-            Tile move = promptPlayerMoveToTile(scanner,board);
-
-            // Check if the move is valid
-            if (checkTileValidity(availableMoves, move)){
-                continue;
+            if (isLegalMove(move)) {
+                makeMove(move);
+                switchCurrentPlayer();
+            } else {
+                System.out.println("Invalid move. Please try again.");
             }
+        }
+        gameOver();
+    }
 
-            // Move the knight to the new tile
-            if (!tryToMoveKnight(move,board,currentKnight)){
-                continue;
-            }
+    @Override
+    public boolean isLegalMove(Tile move) {
+        ArrayList<Tile> availableMoves = currentKnight.getAvailableMoves(board);
+        return availableMoves.contains(move);
+    }
 
-            // Swap the current player
-            switchCurrentPlayer();
+    @Override
+    public void makeMove(Tile move) {
+        currentKnight.move(move, board);
+        if (otherKnight.getAvailableMoves(board).isEmpty()) {
+            status = otherKnight == board.getPlayer1() ? Status.PLAYER_2_WINS : Status.PLAYER_1_WINS;
         }
     }
 
-    public boolean tryToMoveKnight(Tile move, Board board, Knight knight){
-        if (!knight.move(move, board)) {
-            System.out.println("Invalid move. Please try again.");
-            return false;
-        }
-        return true;
-    }
-
-
-    protected Tile promptPlayerMoveToTile(Scanner scanner, Board board){
+    protected Tile promptPlayerMoveToTile(Scanner scanner, Board board) {
         System.out.println("Enter your move (row column): ");
         int moveRow = scanner.nextInt();
         int moveCol = scanner.nextInt();
         return board.getTile(moveRow, moveCol);
     }
 
-    public  Board getBoard(){
-        return board;
-    }
-
-    protected boolean checkTileValidity(ArrayList<Tile> availableMoves, Tile move ){
-        if (!availableMoves.contains(move)) {
-            System.out.println("Invalid move. Please try again.");
-            return true;
-        }
-        return false;
-    }
-    public void displayCurrentPlayerPossibleMovesOnConsole(Board board)
-    {
+    public void displayCurrentPlayerPossibleMovesOnConsole() {
         System.out.println("Available moves:");
         for (Tile tile : currentKnight.getAvailableMoves(board)) {
             if (!board.getTile(tile.getRow(), tile.getCol()).isOccupied()) {
@@ -109,36 +93,36 @@ public class Game {
         }
     }
 
-
-
-
-
-
     public void switchCurrentPlayer() {
         Knight tempKnight = currentKnight;
         currentKnight = otherKnight;
         otherKnight = tempKnight;
-
-        if (currentKnight.getAvailableMoves(board).isEmpty()){
-            gameOver(otherKnight,board);
-        }
     }
 
-
-
-    protected static void gameOver(Knight winner,Board board)
-    {
+    protected void gameOver() {
         System.out.println("Game over!");
-        if (winner == board.getPlayer1() ){
-            System.out.println("Player1 won");
-            board.printBoard();
+        if (status == Status.PLAYER_1_WINS) {
+            System.out.println("Player 1 won!");
+        } else if (status == Status.PLAYER_2_WINS) {
+            System.out.println("Player 2 won!");
+        } else {
+            System.out.println("It's a draw!");
         }
-        else {
-            System.out.println("Player2 won");
-            board.printBoard();
-        }
-
+        board.printBoard();
     }
 
+    @Override
+    public Player getNextPlayer() {
+        return currentKnight == board.getPlayer1() ? Player.PLAYER_1 : Player.PLAYER_2;
+    }
 
+    @Override
+    public boolean isGameOver() {
+        return status != Status.IN_PROGRESS;
+    }
+
+    @Override
+    public Status getStatus() {
+        return status;
+    }
 }

@@ -1,4 +1,4 @@
-package Game;
+/*package Game;
 
 import BoardPackage.Board;
 import BoardPackage.Tile;
@@ -98,3 +98,4 @@ public class GameWithOpponent extends Game {
     }
 }
 
+*/

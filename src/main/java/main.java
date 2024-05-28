@@ -13,14 +13,10 @@ public class main extends Application {
 
     public static void main(String[] args) {
 
-        //Game game = new Game();
-        //game.PlayGameConsole();
+        Game game = new Game();
+        game.playGameConsole();
         //GameWithOpponent gameWithOpponent = new GameWithOpponent(AiPlayerType.BestFirst);
         //gameWithOpponent.PlayGameConsole();
-
-
-        launch(args);
-
 
     }
 }
