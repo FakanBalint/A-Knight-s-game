@@ -3,12 +3,15 @@ package Game;
 import BoardPackage.*;
 import Units.Knight;
 import game.BasicState;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game implements BasicState<Tile> {
+    @Getter
     private Knight currentKnight, otherKnight;
+    @Getter
     private Board board;
     private Status status;
 
@@ -37,14 +40,6 @@ public class Game implements BasicState<Tile> {
         otherKnight = board.getPlayer2();
     }
 
-    public Knight getCurrentKnight() {
-        return currentKnight;
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
     public void playGameConsole() {
         Scanner scanner = new Scanner(System.in);
         init();
@@ -55,7 +50,6 @@ public class Game implements BasicState<Tile> {
 
             if (isLegalMove(move)) {
                 makeMove(move);
-                switchCurrentPlayer();
             } else {
                 System.out.println("Invalid move. Please try again.");
             }
@@ -71,10 +65,16 @@ public class Game implements BasicState<Tile> {
 
     @Override
     public void makeMove(Tile move) {
+        if (Status.IN_PROGRESS != status) {
+            return;
+        }
         currentKnight.move(move, board);
         if (otherKnight.getAvailableMoves(board).isEmpty()) {
             status = otherKnight == board.getPlayer1() ? Status.PLAYER_2_WINS : Status.PLAYER_1_WINS;
+            gameOver();
+            return;
         }
+        switchCurrentPlayer();
     }
 
     protected Tile promptPlayerMoveToTile(Scanner scanner, Board board) {

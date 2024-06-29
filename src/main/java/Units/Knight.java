@@ -1,21 +1,17 @@
 package Units;
 import BoardPackage.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@Getter
 public class Knight implements Serializable {
 
     private Tile position;
+    @Setter
     private String IconNameUniCode;
-
-    public String getIconNameUniCode() {
-        return IconNameUniCode;
-    }
-
-    public void setIconNameUniCode(String iconNameUniCode) {
-        IconNameUniCode = iconNameUniCode;
-    }
 
     public Knight(int row, int col, String IconNameUniCode) {
         this.IconNameUniCode = IconNameUniCode;
@@ -23,10 +19,6 @@ public class Knight implements Serializable {
     }
     public Knight(int row, int col) {
         position = new Tile(row, col);
-    }
-
-    public Tile getPosition() {
-        return position;
     }
 
     public void setPosition(Tile newPosition) {
@@ -37,7 +29,7 @@ public class Knight implements Serializable {
     public ArrayList<Tile> getAvailableMoves(Board board) {
         int[] rows = {-2, -2, -1, -1, 1, 1, 2, 2};
         int[] cols = {-1, 1, -2, 2, -2, 2, -1, 1};
-        ArrayList<Tile> moves = new ArrayList<Tile>();
+        ArrayList<Tile> moves = new ArrayList<>();
         int row = position.getRow();
         int col = position.getCol();
 

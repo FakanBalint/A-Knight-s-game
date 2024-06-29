@@ -61,7 +61,6 @@ public class GUIGameController extends Application {
                         if (game.isLegalMove(targetTile)) {
                             game.makeMove(targetTile);
                             System.out.println("Player moved to: (" + finalRow + ", " + finalCol + ")");
-                            game.switchCurrentPlayer();
                             updateGUI(grid, board);
                         } else {
                             System.out.println("Player tried to move to: (" + finalRow + ", " + finalCol + ") and failed");

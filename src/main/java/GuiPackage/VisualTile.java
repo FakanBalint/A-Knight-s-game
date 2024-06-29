@@ -1,17 +1,14 @@
 package GuiPackage;
 
 import BoardPackage.Tile;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.control.Button;
+import lombok.Getter;
 
-import java.awt.*;
 
 public class VisualTile extends Button {
 
+    @Getter
     private Tile tile;
 
     int row;
@@ -27,11 +24,6 @@ public class VisualTile extends Button {
         setPrefSize(size, size);
 
     }
-
-    public Tile getTile(){
-        return tile;
-    }
-
 
 
     public void DisPlayTileProperties()

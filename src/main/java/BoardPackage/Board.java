@@ -1,12 +1,16 @@
 package BoardPackage;
 import Units.Knight;
+import lombok.Getter;
+
 import java.io.*;
 
 public class Board implements Serializable {
 
    final private Tile[][] board;
 
+   @Getter
    final private Knight player1;
+   @Getter
    final private Knight player2;
     public Board() {
         board = new Tile[8][8];
@@ -101,14 +105,6 @@ public class Board implements Serializable {
             System.err.println("Error loading board from file: " + e.getMessage());
         }
         return board;
-    }
-
-    public Knight getPlayer1() {
-        return player1;
-    }
-
-    public Knight getPlayer2() {
-        return player2;
     }
 
 }

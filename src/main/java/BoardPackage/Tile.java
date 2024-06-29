@@ -1,11 +1,14 @@
 package BoardPackage;
 import Units.Knight;
+import lombok.Getter;
 
 import java.io.Serializable;
 
 public class Tile implements Serializable {
 
+    @Getter
     private final int row;
+    @Getter
     private final int col;
     private boolean isOccupied;
 
@@ -18,12 +21,6 @@ public class Tile implements Serializable {
 
     }
 
-    public int getRow() {
-        return row;
-    }
-    public int getCol() {
-        return col;
-    }
     public boolean isOccupied() {
         return isOccupied;
     }
